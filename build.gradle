@@ -1,0 +1,65 @@
+plugins {
+    id 'java-library'
+    id 'io.qameta.allure' version '2.11.2'
+}
+group 'guru.qa'
+version '1.0-SNAPSHOT'
+
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = "5.9.3"
+    slf4jVersion = "2.0.7"
+    allureVersion = "2.22.2"
+    restAssuredVersion = "5.3.0"
+}
+
+allure {
+    report {
+        version.set(allureVersion) //версия Allure Report (https://github.com/allure-framework/allure2)
+    }
+    adapter {
+        aspectjWeaver.set(true) // обработка аннотации @Step
+        frameworks {
+            junit5 {
+                adapterVersion.set(allureVersion)
+                //версия Allure JUnit5 (https://github.com/allure-framework/allure-java)
+            }
+        }
+    }
+}
+
+dependencies {
+    testImplementation(
+            "org.junit.jupiter:junit-jupiter:${junitVersion}",
+            "org.slf4j:slf4j-simple:${slf4jVersion}",
+            "org.slf4j:slf4j-api:${slf4jVersion}",
+            "org.slf4j:slf4j-simple:${slf4jVersion}",
+            "io.rest-assured:rest-assured:${restAssuredVersion}"
+    )
+
+}
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+    systemProperties(System.getProperties())
+    ignoreFailures = false
+
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+    systemProperties(System.getProperties())
+}
