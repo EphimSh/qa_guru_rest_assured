@@ -27,6 +27,4 @@ public class LoginSpec {
             .expectStatusCode(200)
             .expectBody(matchesJsonSchemaInClasspath("schema/successful-login-response-schema.json"))
             .build();
-
-
 }

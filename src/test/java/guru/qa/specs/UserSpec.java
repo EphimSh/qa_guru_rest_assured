@@ -34,5 +34,4 @@ public class UserSpec {
             .expectStatusCode(200)
             .expectBody(matchesJsonSchemaInClasspath("schema/user-patched-schema.json"))
             .build();
-
 }
