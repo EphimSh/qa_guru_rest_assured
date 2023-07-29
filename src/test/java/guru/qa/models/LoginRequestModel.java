@@ -1,10 +1,8 @@
 package guru.qa.models;
 
 import lombok.Data;
-
 @Data
-public class LoginBodyLombokModel {
+public class LoginRequestModel {
     String email, password;
-
 
 }
